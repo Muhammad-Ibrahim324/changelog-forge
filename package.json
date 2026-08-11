@@ -1,6 +1,6 @@
 {
   "name": "changelog-forge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate a grouped, linkable CHANGELOG.md from your Conventional Commits git history.",
   "type": "module",
   "bin": {
