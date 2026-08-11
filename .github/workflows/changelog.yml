@@ -1,0 +1,32 @@
+name: Update Changelog
+
+on:
+  push:
+    tags:
+      - "v*"
+
+# Lets the workflow push the updated CHANGELOG.md back to the repo.
+permissions:
+  contents: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history is needed to find the previous tag
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npx changelog-forge --version-name "${{ github.ref_name }}"
+
+      - name: Commit updated changelog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet || git commit -m "docs: update changelog for ${{ github.ref_name }} [skip ci]"
+          git push origin HEAD:main

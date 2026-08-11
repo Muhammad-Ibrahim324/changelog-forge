@@ -1,0 +1,30 @@
+{
+  "name": "changelog-forge",
+  "version": "0.1.0",
+  "description": "Generate a grouped, linkable CHANGELOG.md from your Conventional Commits git history.",
+  "type": "module",
+  "bin": {
+    "changelog-forge": "./bin/cli.js"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "start": "node bin/cli.js"
+  },
+  "keywords": [
+    "changelog",
+    "git",
+    "conventional-commits",
+    "cli",
+    "release"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {}
+}
