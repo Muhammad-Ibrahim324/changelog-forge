@@ -3,6 +3,18 @@ import { execFileSync } from "node:child_process";
 const FIELD_SEP = "\u0001"; // unlikely to appear in commit messages
 const RECORD_SEP = "\u0002";
 
+export function isGitRepo() {
+  try {
+    execFileSync("git", ["rev-parse", "--is-inside-work-tree"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Returns the most recent git tag reachable from HEAD, or null if none exists.
  */

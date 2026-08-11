@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { getCommits, getLatestTag, getRepoUrl } from "../src/git.js";
+import { getCommits, getLatestTag, getRepoUrl, isGitRepo } from "../src/git.js";
 import { parseCommit } from "../src/parser.js";
 import { renderSection, prependToChangelog } from "../src/render.js";
 
@@ -24,6 +24,15 @@ program
 const opts = program.opts();
 
 function main() {
+  
+  if (!isGitRepo()) {
+    console.error(
+      "Error: not a git repository. Run changelog-forge from inside a git project."
+    );
+    process.exitCode = 1;
+    return;
+  }
+  
   const from = opts.from ?? getLatestTag() ?? undefined;
   const repoUrl = opts.link === false ? null : getRepoUrl();
 
@@ -64,4 +73,9 @@ function main() {
   );
 }
 
-main();
+try {
+  main();
+} catch (err) {
+  console.error(`Error: ${err.message}`);
+  process.exitCode = 1;
+}
